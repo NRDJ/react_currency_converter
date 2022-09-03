@@ -19,6 +19,9 @@ var CurrencyConverter = function (_React$Component) {
       usd: 1,
       euro: 1 * 0.89
     };
+
+    _this.handleUsdChange = _this.handleUsdChange.bind(_this);
+    _this.handleEuroChange = _this.handleEuroChange.bind(_this);
     return _this;
   }
 
@@ -31,6 +34,50 @@ var CurrencyConverter = function (_React$Component) {
     key: "toEuro",
     value: function toEuro(amount, rate) {
       return amount * rate;
+    }
+  }, {
+    key: "handleUsdChange",
+    value: function handleUsdChange(event) {
+      var input = parseFloat(event.target.value);
+
+      if (Number.isNaN(input)) {
+        this.setState({
+          usd: "",
+          euro: ""
+        });
+
+        return;
+      }
+
+      var euro = this.toEuro(input, this.state.rate).toFixed(3);
+
+      this.setState({
+        usd: input,
+
+        euro: euro
+      });
+    }
+  }, {
+    key: "handleEuroChange",
+    value: function handleEuroChange(event) {
+      var input = parseFloat(event.target.value);
+
+      if (Number.isNaN(input)) {
+        this.setState({
+          usd: "",
+
+          euro: ""
+        });
+
+        return;
+      }
+      var usd = this.toUsd(input, this.state.rate).toFixed(3);
+
+      this.setState({
+        euro: input,
+
+        usd: usd
+      });
     }
   }, {
     key: "render",
@@ -77,7 +124,11 @@ var CurrencyConverter = function (_React$Component) {
               { className: "mx-3" },
               "="
             ),
-            React.createElement("input", { value: euro, onChange: this.handleEuroChange, type: "number" }),
+            React.createElement("input", {
+              value: euro,
+              onChange: this.handleEuroChange,
+              type: "number"
+            }),
             React.createElement(
               "span",
               { className: "ml-1" },
@@ -92,4 +143,4 @@ var CurrencyConverter = function (_React$Component) {
   return CurrencyConverter;
 }(React.Component);
 
-ReactDOM.render(React.createElement(CurrencyConverter, null), document.getElementById('root'));
+ReactDOM.render(React.createElement(CurrencyConverter, null), document.getElementById("root"));
